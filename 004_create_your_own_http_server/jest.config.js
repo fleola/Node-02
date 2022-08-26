@@ -1,4 +1,8 @@
-module.exports = {
-  testEnvironment: "node",
-  verbose: true,
+const config = {
+    testEnvironment: "node",
+    verbose: true,
+    transform: {},
+    transformIgnorePatterns: [],
 };
+
+export default config;
