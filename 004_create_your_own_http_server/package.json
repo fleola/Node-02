@@ -1,0 +1,32 @@
+{
+  "type": "module",
+  "name": "node-02",
+  "version": "1.0.0",
+  "description": "Every exercises has his own branch",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js",
+    "dev": "nodemon --watch ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fleola/Node-02.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fleola/Node-02/issues"
+  },
+  "homepage": "https://github.com/fleola/Node-02#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19",
+    "supertest": "^6.2.4",
+    "jest": "^28.1.3"
+  }
+}
