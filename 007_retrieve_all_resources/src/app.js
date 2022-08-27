@@ -8,6 +8,7 @@ app.get("/", (request, response) => {
   response.json({ message: "Server Running" });
 });
 
+//GET /cars route
 app.get("/cars", async (request, response) => {
   const cars = await prisma.cars.findMany();
   response.json(cars);
