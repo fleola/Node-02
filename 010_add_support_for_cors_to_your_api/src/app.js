@@ -6,10 +6,15 @@ import {
   validate,
   carSchema,
 } from "./lib/validation/index.js";
+import cors from "cors";
 
 const app = express();
+const corsOptions = {
+  origin: "http://localhost:8080",
+};
 
 app.use(express.json());
+app.use(cors(corsOptions));
 
 app.get("/", (request, response) => {
   response.status(200).json({ message: "Server Running" });
