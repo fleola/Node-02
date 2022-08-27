@@ -1,0 +1,37 @@
+{
+  "type": "module",
+  "name": "node-02",
+  "version": "1.0.0",
+  "description": "Every exercises has his own branch",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "start": "node src/server.js",
+    "dev": "nodemon --watch ../"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fleola/Node-02.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fleola/Node-02/issues"
+  },
+  "homepage": "https://github.com/fleola/Node-02#readme",
+  "dependencies": {
+    "@prisma/client": "^4.2.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1"
+  },
+  "devDependencies": {
+    "jest": "^29.0.1",
+    "nodemon": "^2.0.19",
+    "prisma": "^4.2.1",
+    "supertest": "^6.2.4"
+  }
+}
