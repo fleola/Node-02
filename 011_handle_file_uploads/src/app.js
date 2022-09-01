@@ -7,11 +7,13 @@ import {
   carSchema,
 } from "./lib/validation/index.js";
 import cors from "cors";
+import { initMulterMiddleware } from "./lib/middleware/multer.js";
 
 const app = express();
 const corsOptions = {
   origin: "http://localhost:8080",
 };
+const upload = initMulterMiddleware();
 
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -89,6 +91,33 @@ app.delete("/cars/:id(\\d+)", async (request, response, next) => {
   }
 });
 
+//POST /cars/:id/photo - add a photo to a resource
+app.post(
+  "/cars/:id(\\d+)/photo",
+  upload.single("photo"),
+  async (request, response, next) => {
+    if (!request.file) {
+      response.status(400);
+      return next("No photo file uploaded.");
+    }
+
+    const photoFilename = request.file.filename;
+    const carId = Number(request.params.id);
+    try {
+      await prisma.cars.update({
+        where: { id: carId },
+        data: { photoFilename },
+      });
+
+      response.status(201).json(photoFilename);
+    } catch (error) {
+      response.status(404);
+      next(`Cannot POST /cars/${carId}/photo`);
+    }
+  }
+);
+
+app.use("/cars/photos", express.static("uploads"));
 app.use(validationErrorMiddleware);
 
 export default app;
