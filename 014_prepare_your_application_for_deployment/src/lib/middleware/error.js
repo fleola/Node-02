@@ -1,4 +1,4 @@
-import { STATUS_CODE } from "node:http";
+import { STATUS_CODES } from "node:http";
 
 function getErrorMessage(error) {
   if (error.stack) {
