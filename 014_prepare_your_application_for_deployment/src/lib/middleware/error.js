@@ -1,4 +1,4 @@
-import { STATUS_CODES } from "node:http";
+import { STATUS_CODE } from "node:http";
 
 function getErrorMessage(error) {
   if (error.stack) {
@@ -49,7 +49,7 @@ export function initErrorMiddleware(appEnvironment) {
     const statusCode = getHttpStatusCode(error);
     const errorResponse = {
       statusCode,
-      error: STATUS_CODES[statusCode + ""],
+      error: STATUS_CODE[statusCode + ""],
       message: "",
     };
     if (appEnvironment !== "production") {
