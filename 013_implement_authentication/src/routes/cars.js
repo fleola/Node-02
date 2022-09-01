@@ -3,6 +3,7 @@ import prisma from "../lib/prisma/client.js";
 
 import { validate, carSchema } from "../lib/middleware/validation/index.js";
 import { initMulterMiddleware } from "../lib/middleware/multer.js";
+import { checkAuthorization } from "../lib/middleware/passport.js";
 
 const upload = initMulterMiddleware();
 
@@ -31,28 +32,42 @@ router.get("/:id(\\d+)", async (request, response, next) => {
 });
 
 //POST /cars route - create a resource
-router.post("/", validate({ body: carSchema }), async (request, response) => {
-  const carData = request.body;
+router.post(
+  "/",
+  checkAuthorization,
+  validate({ body: carSchema }),
+  async (request, response) => {
+    const carData = request.body;
+    const username = String(request.user?.username);
+    const car = await prisma.cars.create({
+      data: {
+        ...carData,
+        createdBy: username,
+        updatedBy: username,
+      },
+    });
 
-  const car = await prisma.cars.create({
-    data: carData,
-  });
-
-  response.status(201).json(car);
-});
+    response.status(201).json(car);
+  }
+);
 
 //PUT /cars/:id route - update a resource
 router.put(
   "/:id(\\d+)",
+  checkAuthorization,
   validate({ body: carSchema }),
   async (request, response, next) => {
     const carId = Number(request.params.id);
+    const username = String(request.user?.username);
 
     const carData = request.body;
     try {
       const car = await prisma.cars.update({
         where: { id: carId },
-        data: carData,
+        data: {
+          ...carData,
+          updatedBy: username,
+        },
       });
       response.status(200).json(car);
     } catch (error) {
@@ -63,36 +78,42 @@ router.put(
 );
 
 //DELETE /cars/:id - delete a resource
-router.delete("/:id(\\d+)", async (request, response, next) => {
-  const carId = Number(request.params.id);
+router.delete(
+  "/:id(\\d+)",
+  checkAuthorization,
+  async (request, response, next) => {
+    const carId = Number(request.params.id);
 
-  try {
-    const car = await prisma.cars.delete({
-      where: { id: carId },
-    });
-    response.status(204).end();
-  } catch (error) {
-    response.status(404);
-    next(`Cannot DELETE /cars/${carId}`);
+    try {
+      const car = await prisma.cars.delete({
+        where: { id: carId },
+      });
+      response.status(204).end();
+    } catch (error) {
+      response.status(404);
+      next(`Cannot DELETE /cars/${carId}`);
+    }
   }
-});
+);
 
 //POST /cars/:id/photo - add a photo to a resource
 router.post(
   "/:id(\\d+)/photo",
+  checkAuthorization,
   upload.single("photo"),
   async (request, response, next) => {
     if (!request.file) {
       response.status(400);
       return next("No photo file uploaded.");
     }
+    const username = String(request.user?.username);
 
     const photoFilename = request.file.filename;
     const carId = Number(request.params.id);
     try {
       await prisma.cars.update({
         where: { id: carId },
-        data: { photoFilename },
+        data: { photoFilename, updatedBy: username },
       });
 
       response.status(201).json(photoFilename);

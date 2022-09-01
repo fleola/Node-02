@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<body>
+  <p>
+    <a
+      href="http://localhost:3000/auth/login?redirectTo=http://localhost:8080/add"
+      >Login</a
+    >
+  </p>
+
+  <form action="http://localhost:3000/cars" id="form-add">
+    <label>
+      <strong>Brand: </strong>
+      <input type="text" name="brand" />
+    </label>
+    <label>
+      <strong>Model: </strong>
+      <input type="text" name="model" />
+    </label>
+    <label>
+      <strong>Year: </strong>
+      <input type="number" name="year" />
+    </label>
+
+    <input type="submit" value="Add Car" />
+  </form>
+
+  <script>
+    const form = document.getElementById("form-add");
+    async function addCar(event) {
+      event.preventDefault();
+
+      const plainFormData = Object.fromEntries(new FormData(form));
+      const formDataJsonString = JSON.stringify(plainFormData);
+
+      const url = form.action;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: formDataJsonString,
+        credentials: "include",
+      });
+
+      const car = await response.json();
+      console.dir(car);
+    }
+
+    form.addEventListener("submit", addCar);
+  </script>
+</body>
