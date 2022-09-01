@@ -8,10 +8,14 @@ import { validationErrorMiddleware } from "./lib/middleware/validation/index.js"
 import { initCorsMiddleware } from "./lib/middleware/cors.js";
 import { initSessionMiddleware } from "./lib/middleware/session.js";
 import { passport } from "./lib/middleware/passport.js";
+import {
+  notFoundMiddleware,
+  initErrorMiddleware,
+} from "./lib/middleware/error.js";
 
 const app = express();
 
-app.use(initSessionMiddleware());
+app.use(initSessionMiddleware(app.get("env")));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -21,6 +25,10 @@ app.use(initCorsMiddleware());
 app.use("/cars", carsRoutes);
 app.use("/auth", authRoutes);
 
+app.use(notFoundMiddleware);
+
 app.use(validationErrorMiddleware);
+
+app.use(initErrorMiddleware(app.get("env")));
 
 export default app;
