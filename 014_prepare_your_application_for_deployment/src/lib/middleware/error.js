@@ -49,7 +49,7 @@ export function initErrorMiddleware(appEnvironment) {
     const statusCode = getHttpStatusCode(error);
     const errorResponse = {
       statusCode,
-      error: STATUS_CODE[statusCode + ""],
+      error: STATUS_CODES[statusCode + ""],
       message: "",
     };
     if (appEnvironment !== "production") {
