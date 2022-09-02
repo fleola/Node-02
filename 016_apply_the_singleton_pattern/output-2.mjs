@@ -1,4 +1,4 @@
-import { textInstance } from "./script.mjs";
+import { textInstance } from "./singletonPattern.mjs";
 
 textInstance.output(5);
 textInstance.output("Text field");
