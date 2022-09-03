@@ -1,0 +1,63 @@
+{
+    "name": "fastify-test",
+    "version": "1.0.0",
+    "description": "first fastify project",
+    "main": "dist/server.js",
+    "engines": {
+        "node": ">=16"
+    },
+    "scripts": {
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "build": "tsc",
+        "build:dev": "tsc --watch",
+        "start": "node dist/server.js",
+        "start:dev": "nodemon --watch dist dist/server.js --watch .env",
+        "dev": "npm run build && concurrently 'npm:build:dev' 'npm:start:dev'",
+        "web": "serve -p 8080 web/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fleola/Node-02.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/fleola/Node-02/issues"
+    },
+    "homepage": "https://github.com/fleola/Node-02#readme",
+    "dependencies": {
+        "@prisma/client": "^4.2.1",
+        "ajv": "^8.11.0",
+        "ajv-formats": "^2.1.1",
+        "ajv-merge-patch": "^5.0.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
+        "mime": "^3.0.0",
+        "tsd": "^0.23.0"
+    },
+    "devDependencies": {
+        "@fastify/cors": "^8.1.0",
+        "@fastify/static": "^6.5.0",
+        "@fastify/type-provider-typebox": "github:fastify/fastify-type-provider-typebox",
+        "@sinclair/typebox": "^0.24.28",
+        "@tsconfig/node18": "^1.0.1",
+        "@types/cors": "^2.8.12",
+        "@types/mime": "^3.0.1",
+        "@types/multer": "^1.4.7",
+        "@types/node": "^18.6.2",
+        "@typescript-eslint/eslint-plugin": "^5.31.0",
+        "@typescript-eslint/parser": "^5.31.0",
+        "concurrently": "^7.3.0",
+        "eslint": "^8.20.0",
+        "eslint-config-prettier": "^8.5.0",
+        "fastify": "^4.5.3",
+        "fastify-multer": "^2.0.3",
+        "fastify-plugin": "^4.2.1",
+        "fastify-tsconfig": "^1.0.1",
+        "nodemon": "^2.0.19",
+        "prettier": "2.7.1",
+        "prisma": "^4.2.1",
+        "serve": "^14.0.1",
+        "typescript": "^4.7.4"
+    }
+}
